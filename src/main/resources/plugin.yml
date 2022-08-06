@@ -1,0 +1,9 @@
+name: FeatherShowcase
+version: '${project.version}'
+main: com.zerek.feathershowcase.FeatherShowcase
+api-version: 1.19
+authors: [ Zerek ]
+description: Allows players to showcase items in chat
+commands:
+  showcase:
+    description: Display an item in chat.
