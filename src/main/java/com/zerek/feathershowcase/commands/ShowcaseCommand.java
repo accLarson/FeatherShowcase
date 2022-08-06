@@ -1,8 +1,10 @@
 package com.zerek.feathershowcase.commands;
 
 import com.zerek.feathershowcase.FeatherShowcase;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -37,24 +39,39 @@ public class ShowcaseCommand implements CommandExecutor {
 
         if (sender instanceof Player && sender.hasPermission("feather.showcase")){
 
-            if (((Player) sender).getEquipment().getItemInMainHand().getType() == Material.AIR){
+            ItemStack itemStack = ((Player) sender).getInventory().getItemInMainHand();
+
+            if (itemStack.getType() == Material.AIR){
 
                 sender.sendMessage(mm.deserialize(messages.get("item-showcase-no-item")));
             }
             else if (!plugin.getRecentListManager().isListed((Player) sender)) {
+
                 plugin.getRecentListManager().add((Player) sender);
 
-                ItemStack itemStack = ((Player) sender).getInventory().getItemInMainHand();
                 ItemStack formattedItemStack = plugin.getItemLabelUtility().formatItemStack(itemStack.clone());
 
-                plugin.getServer().broadcast(mm.deserialize(messages.get("item-showcase"),
-                        Placeholder.unparsed("player",sender.getName()),
-                        Placeholder.component("item",formattedItemStack.displayName().hoverEvent(formattedItemStack))));
+                if (this.validLength(formattedItemStack)){
+                    plugin.getServer().broadcast(mm.deserialize(messages.get("item-showcase"),
+                            Placeholder.unparsed("player",sender.getName()),
+                            Placeholder.component("item",formattedItemStack.displayName().hoverEvent(formattedItemStack))));
+                }
+                else sender.sendMessage(mm.deserialize(messages.get("too-long")));
             }
             else sender.sendMessage(mm.deserialize(messages.get("item-showcase-cooldown")));
 
         }
         else sender.sendMessage(mm.deserialize(messages.get("player-command-only")));
+        return true;
+    }
+
+    private boolean validLength(ItemStack itemStack) {
+        if (PlainTextComponentSerializer.plainText().serialize(itemStack.displayName()).length() > 40) return false;
+        if (itemStack.getItemMeta().hasLore()) {
+            for (Component component : itemStack.lore()) {
+                if (PlainTextComponentSerializer.plainText().serialize(component).length() > 40) return false;
+            }
+        }
         return true;
     }
 }

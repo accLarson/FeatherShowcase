@@ -11,10 +11,11 @@ public final class FeatherShowcase extends JavaPlugin {
     private RecentListManager recentListManager;
     private ItemLabelUtility itemLabelUtility;
 
-
     @Override
     public void onEnable() {
+        this.saveDefaultConfig();
         this.recentListManager = new RecentListManager(this);
+        this.itemLabelUtility = new ItemLabelUtility(this);
 
         this.getCommand("showcase").setExecutor(new ShowcaseCommand(this));
         this.getCommand("showcase").setTabCompleter(new ShowcaseTabCompleter());
@@ -27,10 +28,10 @@ public final class FeatherShowcase extends JavaPlugin {
     }
 
     public RecentListManager getRecentListManager() {
-        return recentListManager;
+        return this.recentListManager;
     }
     public ItemLabelUtility getItemLabelUtility() {
-        return itemLabelUtility;
+        return this.itemLabelUtility;
     }
 
 
