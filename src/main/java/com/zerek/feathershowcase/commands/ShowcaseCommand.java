@@ -66,10 +66,10 @@ public class ShowcaseCommand implements CommandExecutor {
     }
 
     private boolean validLength(ItemStack itemStack) {
-        if (PlainTextComponentSerializer.plainText().serialize(itemStack.displayName()).length() > 40) return false;
+        if (PlainTextComponentSerializer.plainText().serialize(itemStack.displayName()).length() > 75) return false;
         if (itemStack.getItemMeta().hasLore()) {
             for (Component component : itemStack.lore()) {
-                if (PlainTextComponentSerializer.plainText().serialize(component).length() > 40) return false;
+                if (PlainTextComponentSerializer.plainText().serialize(component).length() > 75) return false;
             }
         }
         return true;
