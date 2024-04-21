@@ -3,4 +3,4 @@ messages:
   player-command-only: "<#656b96>Player command only."
   item-showcase: "<white>• <#949bd1><player> <#656b96>is showcasing an item: <item><#656b96>."
   item-showcase-no-item: "<#656b96>Hold the item you want to showcase."
-  item-showcase-cooldown: "<#656b96>You must wait 1 minute to showcase an item again."
+  item-showcase-cooldown: "<#656b96>You must wait 5 seconds to showcase an item again."

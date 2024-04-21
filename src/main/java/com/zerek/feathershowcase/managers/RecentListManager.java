@@ -19,10 +19,12 @@ public class RecentListManager {
     }
 
     public void add(Player player){
-        if (player.hasPermission("feather.showcase.bypass")) plugin.getLogger().info(player.getName() + " was not added to the recentShowcaseList since they have the bypass permission.");
+        if (player.hasPermission("feather.showcase.bypass")) {
+            plugin.getLogger().info(player.getName() + " was not added to the recentShowcaseList since they have the bypass permission.");
+        }
         else {
             this.recentShowcaseList.add(player);
-            plugin.getServer().getScheduler().runTaskLater(plugin, () -> recentShowcaseList.remove(player), 1200L);
+            plugin.getServer().getScheduler().runTaskLater(plugin, () -> recentShowcaseList.remove(player), 100L);
         }
     }
 
